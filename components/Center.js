@@ -35,7 +35,6 @@ function Center() {
             console.log('something error', err))
     }, [spotifyApi, playlistId]);
 
-    console.log(playlist);
 
     return (
         <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
@@ -53,7 +52,7 @@ function Center() {
             <section
                 className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80 text-white padding-8 text-white`}
             >
-                <img className="h-44 w-44 shadow-2xl " src={playlist ?.images?.[0]?.url} alt=""/>
+                <img className="h-44 w-44 shadow-2xl " src={playlist?.images?.[0]?.url} alt=""/>
                 <div className="pb-5">
                     <p>PLAYLIST</p>
                     <h1 className="text-2xl md:test-3xl xl:test-5xl">{playlist?.name}</h1>

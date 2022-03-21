@@ -16,8 +16,6 @@ export async function middleware(req) {
     // 2) the token exists
 
     if (pathname.includes('/api/auth') || token) {
-        console.log('name', pathname);
-        console.log('jwt', token);
         return NextResponse.next()
     }
     if (!token && pathname !== url.pathname) {
