@@ -10,9 +10,9 @@ const Home = () => {
                 <SideBar/>
                 <Center/>
             </main>
-            <div className="sticky bottom-0">
-                <Player/>
-            </div>
+            {/*<div className="sticky bottom-0">*/}
+            {/*    <Player/>*/}
+            {/*</div>*/}
         </div>
     )
 }

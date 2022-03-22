@@ -9,32 +9,41 @@ function Song({order, track}) {
     const spotifyApi = useSpotify();
     const songInfo = useSongInfo()
     const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
+    const [testUrl, setUrl] = useRecoilState(previewUrlState);
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-    const [previewUrl, setPreviewUrl] = useRecoilState(previewUrlState);
 
     //TODO Andy 修改成播放預覽音樂
 
-    // const playSongTest = () => {
-    //     setCurrentTrackId(track.track.id);
-    //     setPreviewUrl(songInfo?.preview_url);
-    //     let audio = new Audio(songInfo?.preview_url);
-    //     audio.id = previewUrl;
-    //     audio.play();
-    // }
-    //
-    // useEffect(() => {
-    //     if (isPlaying) {
-    //
-    //     }
-    // }, [previewUrl])
-
-
-    const playSong = () => {
+    const fetchSongInfo = async () => {
+        console.log('track', track.track.id)
+        let trackInfo
+        if (track.track.id) {
+            trackInfo = await fetch(
+                `https://api.spotify.com/v1/tracks/${track.track.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${spotifyApi.getAccessToken()}`
+                    }
+                }
+            ).then((res) => res.json());
+        }
+        return trackInfo
+    }
+    const playSong = async () => {
         setCurrentTrackId(track.track.id);
-        setIsPlaying(true);
-        spotifyApi.play({
-            uris: [track.track.uri]
-        });
+        let trackUrl = await fetchSongInfo().then((res) => {
+            setUrl(res.preview_url);
+            return res.preview_url;
+        })
+        let url = trackUrl;
+        console.log(url);
+        if (null !== url) {
+            const player = document.getElementById('player');
+            player.volume = 0.5;
+            player.play();
+        } else {
+            alert('This song is not have preview')
+        }
     };
 
     return (
@@ -61,6 +70,7 @@ function Song({order, track}) {
                 <p className="w-40 hidden md:inline">{track.track.album.name}</p>
                 <p>{millsToMinutesAndSeconds(track.track.duration_ms)}</p>
             </div>
+            <audio id="player" src={testUrl}/>
         </div>
     )
 }

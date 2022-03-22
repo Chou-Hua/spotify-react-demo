@@ -25,18 +25,18 @@ function Player(callback, deps) {
 
     const songInfo = useSongInfo();
 
-    const fetchCurrentSong = () => {
-        if (!songInfo) {
-            spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-                setCurrentTrackId(data.body?.item?.id);
-
-                spotifyApi.getMyCurrentPlaybackState().then((data) => {
-                    setIsPlaying(data.body?.is_playing);
-                });
-            });
-        }
-    };
-
+    // const fetchCurrentSong = () => {
+    //     if (!songInfo) {
+    //         spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+    //             setCurrentTrackId(data.body?.item?.id);
+    //
+    //             spotifyApi.getMyCurrentPlaybackState().then((data) => {
+    //                 setIsPlaying(data.body?.is_playing);
+    //             });
+    //         });
+    //     }
+    // };
+    //
     const handlePlayPause = () => {
         spotifyApi.getMyCurrentPlaybackState().then((data) => {
             if (data.body?.is_playing) {
@@ -48,26 +48,26 @@ function Player(callback, deps) {
             }
         })
     }
-
-    useEffect(() => {
-        if (spotifyApi.getAccessToken() && !currentTrackId) {
-            fetchCurrentSong();
-            setVolume(50);
-        }
-    }, [currentTrackId, spotifyApi, session])
-
-    useEffect(() => {
-        if (volume > 0 && volume < 100) {
-            debounceAdjustVolume(volume);
-        }
-    }, [volume]);
-
-    const debounceAdjustVolume = useCallback(
-        debounce((volume) => {
-            spotifyApi.setVolume(volume);
-        }, 100)
-    )
-
+    //
+    // useEffect(() => {
+    //     if (spotifyApi.getAccessToken() && !currentTrackId) {
+    //         fetchCurrentSong();
+    //         setVolume(50);
+    //     }
+    // }, [currentTrackId, spotifyApi, session])
+    //
+    // useEffect(() => {
+    //     if (volume > 0 && volume < 100) {
+    //         debounceAdjustVolume(volume);
+    //     }
+    // }, [volume]);
+    //
+    // const debounceAdjustVolume = useCallback(
+    //     debounce((volume) => {
+    //         spotifyApi.setVolume(volume);
+    //     }, 100)
+    // )
+    //
     const songInfoArtists = (data) => {
         if (data) {
             return data.artists?.[0]?.name;
