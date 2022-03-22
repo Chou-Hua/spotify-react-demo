@@ -15,7 +15,6 @@ function Song({order, track}) {
     //TODO Andy 修改成播放預覽音樂
 
     const fetchSongInfo = async () => {
-        console.log('track', track.track.id)
         let trackInfo
         if (track.track.id) {
             trackInfo = await fetch(
@@ -36,7 +35,6 @@ function Song({order, track}) {
             return res.preview_url;
         })
         let url = trackUrl;
-        console.log(url);
         if (null !== url) {
             const player = document.getElementById('player');
             player.volume = 0.5;
